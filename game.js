@@ -81,11 +81,13 @@ function draw() {
 }
 
 function update() {
+    //check condition for walls
     // console.log("in update")
     // rect.x += rect.speed
-    // if (rect.x > W - rect.w || rect.x < 0) {
-    //     rect.speed *= -1
-    // }
+    if (snake.cells[0].x > 15 || snake.cells[0].x < 0 || snake.cells[0].y < 0 || snake.cells[0].y > 15) {
+        clearInterval(game)
+        window.alert("game over")
+    }
     snake.update_snake()
 }
 

@@ -4,6 +4,7 @@ function init() {
     pen = canvas.getContext('2d')
     W = H = canvas.width = canvas.height = 500
     sw = 32
+    gameover = false
     food = randomfood()
 
     snake = {
@@ -34,15 +35,11 @@ function init() {
             //and also increse the snake length
             if (food.x == headx && food.y == heady) {
                 food = randomfood()
+            } else {
+                this.cells.pop()  //THIS WILL REMOVE THE LAST CELL from array but rectangle will be still there
             }
 
-
-
-
-
-
             //update according to the direction
-            this.cells.pop()               //THIS WILL REMOVE THE LAST CELL
             var nextx, nexty
 
             //logic for new head
@@ -63,6 +60,14 @@ function init() {
                 nexty = heady - 1
             }
             this.cells.unshift({ x: nextx, y: nexty })
+
+            //check four border
+            var lastx = Math.round(W / sw)
+            var lasty = Math.round(H / sw)
+
+            if (snake.cells[0].x >= lastx || snake.cells[0].x < 0 || snake.cells[0].y < 0 || snake.cells[0].y >= lasty) {
+                gameover = true
+            }
         }
     }
 
@@ -95,6 +100,7 @@ function draw() {
     // console.log("in draw")
     pen.clearRect(0, 0, W, H)  //erase previous frame
     snake.draw_snake()
+    pen.fillStyle = food.color
     pen.fillRect(food.x * sw, food.y * sw, sw, sw)
 }
 
@@ -102,13 +108,7 @@ function update() {
     //check condition for walls
     // console.log("in update")
     // rect.x += rect.speed
-    var lastx = Math.round(W / sw)
-    var lasty = Math.round(H / sw)
 
-    if (snake.cells[0].x > lastx || snake.cells[0].x < 0 || snake.cells[0].y < 0 || snake.cells[0].y > lasty) {
-        clearInterval(game)
-        window.alert("game over")
-    }
     snake.update_snake()
 }
 
@@ -125,6 +125,11 @@ function randomfood() {
 
 function gameloop() {
     // console.log("in game loop")
+    if (gameover == true) {
+        clearInterval(game)
+        alert("game over")
+        return
+    }
     draw()
     update()
 }

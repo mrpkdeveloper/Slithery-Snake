@@ -1,3 +1,4 @@
+//********** init function for initialising things ********************** */
 function init() {
     console.log("in init")
     canvas = document.getElementById("mycanvas")
@@ -14,6 +15,7 @@ function init() {
     trophyimg = new Image()
     trophyimg.src = "trophy.png"
 
+    //***********snake object ***************************/
     snake = {
         init_len: 5,
         color: "black",
@@ -41,17 +43,18 @@ function init() {
             //this will check whether snake has eaten the food or not 
             //and also increse the snake length
             if (food.x == headx && food.y == heady) {
-                //********************************foodeaten**********************************
+                //**************foodeaten****************
                 food = randomfood()
                 score++
             } else {
-                this.cells.pop()  //THIS WILL REMOVE THE LAST CELL from array but rectangle will be still there
+                //THIS WILL REMOVE THE LAST CELL from array but rectangle will be still there
+                this.cells.pop()
             }
 
             //update according to the direction
             var nextx, nexty
 
-            //logic for new head
+            //logic for new head basically for movement
             if (this.direction == "right") {
                 nextx = headx + 1
                 nexty = heady
@@ -70,7 +73,7 @@ function init() {
             }
             this.cells.unshift({ x: nextx, y: nexty })
 
-            //check four border
+            //************check four border************
             var lastx = Math.round(W / sw)
             var lasty = Math.round(H / sw)
 
@@ -105,6 +108,10 @@ function init() {
 }
 
 
+
+
+
+//********** draw function ********************** */
 function draw() {
     // console.log("in draw")
     pen.clearRect(0, 0, W, H)  //erase previous frame
@@ -123,13 +130,13 @@ function draw() {
     pen.fillText(score, 50, 50)
 }
 
-function update() {
-    //check condition for walls
-    // console.log("in update")
-    // rect.x += rect.speed
 
+
+function update() {
     snake.update_snake()
 }
+
+
 
 function randomfood() {
     var foodx = Math.round(Math.random() * (W - sw) / sw)
@@ -142,6 +149,9 @@ function randomfood() {
     return food
 }
 
+
+
+//***************game loop ****************/
 function gameloop() {
     // console.log("in game loop")
     if (gameover == true) {
@@ -152,6 +162,10 @@ function gameloop() {
     draw()
     update()
 }
+
+
+
+
 
 
 init()

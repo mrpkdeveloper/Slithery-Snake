@@ -5,7 +5,14 @@ function init() {
     W = H = canvas.width = canvas.height = 500
     sw = 32
     gameover = false
+    score = 0
     food = randomfood()
+
+    //create food and trophy image
+    foodimg = new Image()
+    foodimg.src = "apple.png"
+    trophyimg = new Image()
+    trophyimg.src = "trophy.png"
 
     snake = {
         init_len: 5,
@@ -34,7 +41,9 @@ function init() {
             //this will check whether snake has eaten the food or not 
             //and also increse the snake length
             if (food.x == headx && food.y == heady) {
+                //********************************foodeaten**********************************
                 food = randomfood()
+                score++
             } else {
                 this.cells.pop()  //THIS WILL REMOVE THE LAST CELL from array but rectangle will be still there
             }
@@ -101,7 +110,17 @@ function draw() {
     pen.clearRect(0, 0, W, H)  //erase previous frame
     snake.draw_snake()
     pen.fillStyle = food.color
-    pen.fillRect(food.x * sw, food.y * sw, sw, sw)
+
+    //food
+    pen.drawImage(foodimg, food.x * sw, food.y * sw, sw, sw)
+
+
+    //trophy
+    pen.drawImage(trophyimg, 40, 30, sw, sw)
+    //score
+    pen.fillStyle = "black"
+    pen.font = "25px roboto"
+    pen.fillText(score, 50, 50)
 }
 
 function update() {

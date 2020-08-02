@@ -11,9 +11,9 @@ function init() {
 
     //create food and trophy image
     foodimg = new Image()
-    foodimg.src = "apple.png"
+    foodimg.src = "./assets/apple.png"
     trophyimg = new Image()
-    trophyimg.src = "trophy.png"
+    trophyimg.src = "./assets/trophy.png"
 
     //***********snake object ***************************/
     snake = {
